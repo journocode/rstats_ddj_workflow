@@ -46,7 +46,7 @@ age2 <- age_data %>% group_by(district_id) %>% mutate(district_mean=mean(age))
 head(age2)
 # We now want to find the youngest cities of Germany.
 # We won't need the columns key and age for that. We deselect those rows and then reduce the dataset to the unique left rows
-age2 <- age2 %>% select(-c(4,5)) %>% unique()
+age2 %<>% select(-c(4,5)) %>% unique()
 head(age2)
 # Now filter to only retain the city data and arrange the dataset descending to the district_mean
 youngest_cities <- age2 %>% filter(city_county %in% "city") %>% arrange(district_mean)
@@ -72,7 +72,7 @@ head(tidy(krs_shape))
 
 # get tidy shape ids
 shape_district_ids <- as.numeric(krs_shape$KRS)
-age2 <- age2 %>% arrange(match(as.numeric(district_id), shape_district_ids))
+age2 %<>% arrange(match(as.numeric(district_id), shape_district_ids))
 age2$id <- 0:401
 
 plot_data <- merge(tidy(krs_shape), age2, by="id", all.x=T) %>% arrange(id) 
